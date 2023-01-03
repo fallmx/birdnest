@@ -1,5 +1,10 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
+
+app.use(express.static('build'))
+
+app.use(cors())
 
 // Violator subscribe endpoint
 const sendViolators = require('./controllers/sendViolators')

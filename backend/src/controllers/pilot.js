@@ -11,7 +11,6 @@ pilotRouter.get('/:id', (request, response) => {
     .catch(() => {
       response.status(404).end()
     })
-
 })
 
 module.exports = pilotRouter
