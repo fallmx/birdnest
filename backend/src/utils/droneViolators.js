@@ -1,4 +1,4 @@
-const sendViolators = require('../middleware/sendViolators')
+const sendViolators = require('../controllers/sendViolators')
 
 /*
   {
@@ -10,6 +10,11 @@ const sendViolators = require('../middleware/sendViolators')
   }
 */
 const violators = {}
+
+// Checks if drone serial number is a violator
+const isViolator = (droneSn) => {
+  return droneSn in violators
+}
 
 // Update the closest confirmed distance and reset the 10 minute timer
 const handleSee = (droneSighting) => {
@@ -61,7 +66,7 @@ const addViolator = (droneSn, distance) => {
 // Finds new violations, updates existing violators and sends information forwards
 const evaluate = (droneSightingsList) => {
   droneSightingsList.forEach((droneSighting) => {
-    if (droneSighting.serialNumber._text in violators) {
+    if (isViolator(droneSighting.serialNumber._text)) {
       // Update existing violator
       handleSee(droneSighting)
     } else {
@@ -87,5 +92,6 @@ const evaluate = (droneSightingsList) => {
 }
 
 module.exports = {
+  isViolator,
   evaluate
 }
