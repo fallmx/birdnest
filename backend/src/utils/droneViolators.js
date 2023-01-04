@@ -1,4 +1,5 @@
 const sendViolators = require('../controllers/sendViolators')
+const pilotInformationCache = require('./pilotInformationCache')
 
 /*
   {
@@ -30,7 +31,8 @@ const handleSee = (droneSighting) => {
 // Returns a Timeout object with which to cancel the timeout
 const getDeleteTimer = (droneSn) => setTimeout(() => {
   delete violators[droneSn]
-}, 600000)
+  pilotInformationCache.deletePilotInformation(droneSn)
+}, 600_000) // 10 minutes
 
 // Returns an objects distance from the nest/NDZ center
 const distanceFromCenter = (y, x) => {

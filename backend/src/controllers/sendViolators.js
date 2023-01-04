@@ -1,4 +1,5 @@
 const uuid = require('uuid').v4
+const droneSubscriber = require('../subscribers/droneSubscriber')
 
 /*
   [{
@@ -38,10 +39,18 @@ const newConnection = (request, response) => {
   })
   console.log(`${clientId}: connection opened`)
 
+  // Stop possible scheduler-suspend timer or possibly start subscriber
+  droneSubscriber.stopSuspendTimer()
+  droneSubscriber.startSubscriber()
+
   // Handle close client connection
   request.on('close', () => {
     clients = clients.filter((client) => client.id !== clientId)
     console.log(`${clientId}: connection closed`)
+    if (clients.length === 0) {
+      // If no traffic, start a timer to suspend scheduler
+      droneSubscriber.startSuspendTimer()
+    }
   })
 }
 

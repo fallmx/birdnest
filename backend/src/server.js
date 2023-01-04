@@ -1,9 +1,10 @@
 const express = require('express')
 const app = express()
-const cors = require('cors')
 
+// Serve React frontend
 app.use(express.static('build'))
 
+const cors = require('cors')
 app.use(cors())
 
 // Violator subscribe endpoint
