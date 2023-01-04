@@ -60,7 +60,6 @@ const sendViolators = () => {
 
   // Check if data has changed
   if (toSend !== lastSent) {
-    console.log(toSend)
     clients.forEach((client) => {
       client.response.write(toSend)
     })
